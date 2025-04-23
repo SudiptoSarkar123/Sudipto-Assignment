@@ -1,0 +1,14 @@
+<% if (success_msg) { %>
+    <div class="alert alert-success"><%= success_msg %></div>
+<% } %>
+<% if (error_msg) { %>
+    <div class="alert alert-danger"><%= error_msg %></div>
+<% } %>
+<script>
+    setTimeout(function() {
+        const alert = document.querySelector('.alert');
+        if (alert) {
+            alert.style.display = 'none';
+        }
+    }, 3000); // 3 seconds
+</script>

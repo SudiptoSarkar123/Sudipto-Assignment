@@ -2,10 +2,21 @@ const Product = require('../model/productModel');
 
 const Category = require('../model/categoryModel');
 const deleteImage = require('../helper/deleteImage');
+const joi = require('joi')
 
 class adminController {
     // api routes
     async addProduct(req, res) {
+        const schema = joi.object({
+            name:joi.string().min(3).max(20).required(),
+            category:joi.string().required(),
+            description: joi.string().min(5).max(20).required()
+        })
+        const {error} = schema.validate(req.body)
+        if(error){
+            req.flash('error_msg',error.details[0].message)
+            return res.redirect('/admin/addProductPg')
+        }
         try {
             const { name, category, description } = req.body;
             console.log(req.body)
@@ -40,6 +51,21 @@ class adminController {
         } catch (error) {
             console.log(error)
             return res.send('somthing went wrong...')
+        }
+    }
+
+    async editCategory(req,res){
+        const {id} = req.params
+        try {
+            const { name } = req.body ;
+            if(!name)return res.status(400).send('name is Blank..')
+            const category = await Category.findById(id)
+            if(!category)return res.status(404).send('Category not found...');
+            await Category.findByIdAndUpdate(id,{name})
+            return res.redirect('/admin/categories')
+        } catch (error) {
+            console.log(error)
+            return res.redirect('/admin/category/edit/',id)
         }
     }
 
@@ -137,6 +163,17 @@ class adminController {
         } catch (error) {
             console.log(error);
             res.status(500).send('Server Error');
+        }
+    }
+
+    async editCategoryPg(req,res){
+        try {
+            const {id} = req.params
+            const category = await Category.findById(id)
+            return res.render('editCategory',{category})    
+        } catch (error) {
+            console.log(error)
+            return res.status(400).send('faild to edit category ...')
         }
     }
 

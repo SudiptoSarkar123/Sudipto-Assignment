@@ -34,7 +34,7 @@
                         </td>
                         <td>
                             <a href="/admin/products/edit/<%= product._id %>" class="btn btn-sm btn-warning">Edit</a>
-                            <a href="/admin/products/delete/<%= product._id %>" class="btn btn-sm btn-danger">Delete</a>
+                            <a href="/admin/products/delete/<%= product._id %>" class="btn btn-sm btn-danger">Soft Delete</a>
                         </td>
                     </tr>
                 <% }); }else{ %>  
@@ -43,6 +43,8 @@
             </tbody>
         </table>
         <a href="/admin/addProductPg" class="btn btn-primary mt-3">Add New Product</a>
+        <a href="/admin/admin" class="btn btn-primary mt-3">Home</a>
+
     </div>
 
     <!-- Bootstrap JS Bundle -->
