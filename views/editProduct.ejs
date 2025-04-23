@@ -10,7 +10,7 @@
 <body>
     <div class="container mt-5">
         <h1 class="text-center mb-4">Edit Product</h1>
-        <form action="/products/edit/<%= product._id %>" method="POST" enctype="multipart/form-data">
+        <form action="/admin/products/edit/<%= product._id %>" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="name" class="form-label">Product Name</label>
                 <input type="text" class="form-control" id="name" name="name" value="<%= product.name %>" required>
@@ -33,7 +33,7 @@
                 <label for="image" class="form-label">Product Image</label>
                 <input type="file" class="form-control" id="image" name="image">
                 <p class="mt-2">Current Image:</p>
-                <img src="<%= product.image.replace(/\\/g, '/') %>" alt="<%= product.name %>" style="width: 100px; height: 100px;">
+                <img src="/<%= product.image.replace(/\\/g, '/') %>" alt="<%= product.name %>" style="width: 100px; height: 100px;">
             </div>
             <button type="submit" class="btn btn-primary">Update Product</button>
             <a href="/products" class="btn btn-secondary">Cancel</a>

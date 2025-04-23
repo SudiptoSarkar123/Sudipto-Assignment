@@ -10,7 +10,7 @@ const productImageUpload = require('../helper/multerUploads');
 // api routes
 router.post('/products/add',productImageUpload.single('image'),adminController.addProduct);
 router.post('/categories/add', adminController.addCategory);
-router.post('/products/edit/:id',adminController.editProduct)
+router.post('/products/edit/:id',productImageUpload.single('image'),adminController.editProduct)
 router.get('/products/delete/:id',adminController.deleteProduct)
 
 // static routes
@@ -20,6 +20,8 @@ router.get('/productList', adminController.adminProductList);
 
 router.get('/addProductPg',adminController.addProductPg);
 router.get('/addCategoryPg',adminController.addCategoryPg);
+
+router.get('/products/edit/:id',adminController.editProductPg)
 
 
 module.exports = router;

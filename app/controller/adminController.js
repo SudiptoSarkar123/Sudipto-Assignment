@@ -1,6 +1,7 @@
 const Product = require('../model/productModel');
 
 const Category = require('../model/categoryModel');
+const deleteImage = require('../helper/deleteImage');
 
 class adminController {
     // api routes
@@ -44,15 +45,32 @@ class adminController {
 
     async editProduct(req,res){
         try {
-            
+            const {id} = req.params
+            const product = await Product.findById(id).populate('category')
+
+            if(!product) return res.status(400).send('Product not found')
+
+            console.log(req.body);
+            const {name,category,description} = req.body
+            if(!name || !category || !description){
+                return res.redirect(`/admin/editProduct/${id}`)
+            }
+           const updateProduct = {name,category,description}
+            if(req.file){
+                deleteImage(product.image)
+                updateProduct.image = req.file.path
+            }
+            await Product.findByIdAndUpdate(id,updateProduct)
+            return res.redirect('/admin/productList')
         } catch (error) {
-            
+            console.log(error)
+            return res.status(400).send('faild to edit  ...')
         }
     }
     async deleteProduct(req,res){
         try {
             const {id} = req.params
-            const deleteData = await Product.findByIdAndDelete(id)
+            const deleteData = await Product.findByIdAndUpdate(id,{isDeleted:true})
             return res.redirect('/admin/productList')
         } catch (error) {
             console.log(error)
@@ -122,6 +140,21 @@ class adminController {
         }
     }
 
+    async editProductPg(req,res){
+        try {
+            const {id} = req.params
+
+            const product = await Product.findById(id).populate('category')
+            const categories = await Category.find({})
+            console.log(product);
+            return res.render('editProduct',{
+                product,categories 
+            })
+        } catch (error) {
+            console.log(error)
+            return res.status(400).send('faild to edit  ...')
+        }
+    }
 }
 
 
