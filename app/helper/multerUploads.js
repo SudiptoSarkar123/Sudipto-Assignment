@@ -1,5 +1,6 @@
 const multer=require('multer');
-
+// const file = require('files')
+// const path = require('path')
 
 const FILE_TYPE_MAP = {
     'image/png': 'png',
