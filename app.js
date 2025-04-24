@@ -36,10 +36,10 @@ app.use((req, res, next) => {
 });
 
 
-// const userRoutes = require('./app/router/userRoutes'); 
+const customerRoutes = require('./app/router/customerRoutes'); 
 const adminRoutes = require('./app/router/adminRoutes');
 
-// app.use('/user',userRoutes)
+app.use('/',customerRoutes)
 app.use('/admin',adminRoutes)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
